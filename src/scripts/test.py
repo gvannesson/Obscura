@@ -5,11 +5,11 @@ import cv2
 # if you’re still using the default COCO weights, “cls 0” = “person,” not necessarily just the face)
 
 # load model
-model = YOLO("model.pt")
-results = model('../crowd.jpeg')      # returns a list, so results[0] is our Results object
+model = YOLO("../models/model.pt")
+results = model('../img/strato.jpg')      # returns a list, so results[0] is our Results object
 
 # Read the same image with OpenCV
-img = cv2.imread('../crowd.jpeg')
+img = cv2.imread('../img/strato.jpg')
 res = results[0]
 
 # Loop over each detected box

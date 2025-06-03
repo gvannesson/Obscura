@@ -2,12 +2,12 @@ from ultralytics import YOLO
 import cv2
 
 # ── CONFIG ─────────────────────────────────────────────────────
-INPUT_PATH  = 'crowd.mp4'           # change to your input video file
-OUTPUT_PATH = 'output_blurred_video.mp4'  # desired output path
+INPUT_PATH  = '../video/crowd.mp4'           # change to your input video file
+OUTPUT_PATH = '../video/outputs/output_blurred_video.mp4'  # desired output path
 
 # If you have a YOLOv8 model fine-tuned on faces, use it here. Otherwise, using
 # 'yolov8n.pt' will detect full persons (COCO class 0).
-MODEL_WEIGHTS = 'model.pt'  # or 'yolov8n.pt' for person blurring
+MODEL_WEIGHTS = '../models/model.pt'  # or 'yolov8n.pt' for person blurring
 # ────────────────────────────────────────────────────────────────
 
 # 1. Load YOLOv8

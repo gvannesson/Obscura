@@ -2,7 +2,7 @@ from ultralytics import YOLO
 import cv2
 
 # 1. Load your face‐detection model (if you have a face‐specific weight, use that)
-model = YOLO('model.pt')  # or 'yolov8n.pt' if you only have COCO (will detect full person)
+model = YOLO('../models/model.pt')  # or 'yolov8n.pt' if you only have COCO (will detect full person)
 
 # 2. Open your default webcam (device 0)
 cap = cv2.VideoCapture(0)
@@ -11,13 +11,18 @@ if not cap.isOpened():
     exit()
 
 # 3. Optionally, set a smaller resolution for faster inference
-# cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-# cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
 while True:
     ret, frame = cap.read()
     if not ret:
         break
+
+    # ── UN-MIRROR THE FRAME ─────────────────────────────────────
+    # If your camera feed is mirrored, this flips it back
+    frame = cv2.flip(frame, 1)
+    # ────────────────────────────────────────────────────────────
 
     # 4. Run YOLOv8 on this frame
     results = model(frame)    # returns a list; we only passed one frame
