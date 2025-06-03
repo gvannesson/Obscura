@@ -195,3 +195,5 @@ cython_debug/
 
 *.pt
 yolov8n.pt
+
+*.mp4
