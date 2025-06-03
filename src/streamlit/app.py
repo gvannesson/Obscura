@@ -21,6 +21,8 @@ RTC_CONFIGURATION = RTCConfiguration(
 class VideoProcessor(VideoProcessorBase):
     def __init__(self):
         self.blur_strength = blur_strength
+        self.last_count = 0  # dans recv
+
 
     def recv(self, frame):
         # Convert frame en numpy array BGR
@@ -29,7 +31,17 @@ class VideoProcessor(VideoProcessorBase):
         # Détection YOLO (renvoie liste des boîtes)
         results = model(img)
         res = results[0]
-
+        num_people = sum(1 for box in res.boxes if int(box.cls[0]) == 0)
+        self.last_count = num_people  # dans recv
+        cv2.putText(
+                        img,
+                        f"Personnes detectees: {num_people}",
+                        (10, 30),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        1,
+                        (0, 255, 255),
+                        2,
+                    )
         # Floute chaque visage détecté
         for box in res.boxes:
             x1, y1, x2, y2 = map(int, box.xyxy[0])
@@ -62,6 +74,8 @@ def main():
     if ctx.video_processor:
         # Update blur en temps réel depuis le slider
         ctx.video_processor.update_blur(blur_strength)
+
+
 
 if __name__ == "__main__":
     main()
