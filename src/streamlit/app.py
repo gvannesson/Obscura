@@ -5,10 +5,11 @@ import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, RTCConfiguration
 import os
 import base64
+from utils import model_selection
 
 
-# ── Load YOLO model once ─────────────────────────────────────────────────────
-model = YOLO("../models/model.pt")  # adjust path as needed
+# # ── Load YOLO model once ─────────────────────────────────────────────────────
+# model = YOLO("../models/model.pt")  # adjust path as needed
 
 # ── Streamlit UI ────────────────────────────────────────────────────────────
 st.title("🛡 Obscura - Anonymization")
@@ -23,6 +24,8 @@ blur_strength = st.sidebar.slider(
     "Blur intensity (odd number)", 5, 99, 35, step=2
 )
 
+model_selection()
+
 # WebRTC configuration (only used if mode == "Webcam")
 RTC_CONFIGURATION = RTCConfiguration(
     {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
@@ -33,20 +36,22 @@ OUTPUT_DIR = os.path.join("..", "video", "outputs")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
-# ── VideoProcessor for Webcam Mode ────────────────────────────────────────────
 class VideoProcessor(VideoProcessorBase):
-    def __init__(self):
-        self.blur_strength = blur_strength
+    def __init__(self, model, initial_blur: int):
+        # store a local reference to the YOLO model
+        self.model = model
+        # store blur strength (we'll allow updating via update_blur)
+        self.blur_strength = initial_blur
 
     def recv(self, frame):
         img = frame.to_ndarray(format="bgr24")
-        img = cv2.flip(img, 1)  # un-mirror
+        img = cv2.flip(img, 1)  # un‐mirror
 
-        # Run YOLO inference
-        results = model(img)
+        # Use the model that was passed in at init time
+        results = self.model(img)
         res = results[0]
 
-        # Count detected people (optional display)
+        # (Optional) put a count of detected “person” boxes
         num_people = sum(1 for box in res.boxes if int(box.cls[0]) == 0)
         cv2.putText(
             img,
@@ -61,7 +66,6 @@ class VideoProcessor(VideoProcessorBase):
         # Blur each detected face/box
         for box in res.boxes:
             x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
-            # Add padding
             pad = 10
             x1p, y1p = max(x1 - pad, 0), max(y1 - pad, 0)
             x2p = min(x2 + pad, img.shape[1])
@@ -80,20 +84,35 @@ class VideoProcessor(VideoProcessorBase):
 
         return frame.from_ndarray(img, format="bgr24")
 
-    def update_blur(self, new_blur):
+    def update_blur(self, new_blur: int):
         self.blur_strength = new_blur
 
 
+# ── (3) In run_webcam, pass the session_state.model into the processor factory ──
 def run_webcam():
     st.subheader("Webcam Live Blur")
+
+    # Pull the selected model out of session_state once, in the main thread
+    # (so that we hand a “frozen” reference into the worker).
+    yolo_model = st.session_state.get("model", None)
+    if yolo_model is None:
+        st.error("No model found in session_state. Please select a model first.")
+        return
+
+    # Create the webrtc_streamer, passing our VideoProcessor class a lambda
+    # that creates it with the current model & blur strength.
     ctx = webrtc_streamer(
         key="yolo-face-blur",
-        video_processor_factory=VideoProcessor,
+        video_processor_factory=lambda: VideoProcessor(
+            model=yolo_model,
+            initial_blur=blur_strength,
+        ),
         rtc_configuration=RTC_CONFIGURATION,
         media_stream_constraints={"video": True, "audio": False},
         async_processing=True,
     )
 
+    # If the processor is instantiated, update its blur whenever the slider changes.
     if ctx.video_processor:
         ctx.video_processor.update_blur(blur_strength)
 
@@ -101,7 +120,7 @@ def run_webcam():
 # ── Helper: Process a single image ────────────────────────────────────────────
 def process_image(image_bgr, blur_strength):
     img = image_bgr.copy()
-    results = model(img)
+    results = st.session_state.model(img)
     res = results[0]
 
     for box in res.boxes:
