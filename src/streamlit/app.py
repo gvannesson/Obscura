@@ -6,6 +6,7 @@ from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, RTCConfigurati
 import os
 import base64
 
+
 # ── Load YOLO model once ─────────────────────────────────────────────────────
 model = YOLO("../models/model.pt")  # adjust path as needed
 
