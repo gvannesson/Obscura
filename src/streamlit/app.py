@@ -8,7 +8,7 @@ import base64
 
 
 # ── Load YOLO model once ─────────────────────────────────────────────────────
-model = YOLO("../models/model.pt")  # adjust path as needed
+model = YOLO("../models/gauthier_model.pt")  # adjust path as needed
 
 # ── Streamlit UI ────────────────────────────────────────────────────────────
 st.title("🛡 Obscura - Anonymization")
