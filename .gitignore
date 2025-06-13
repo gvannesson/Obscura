@@ -197,3 +197,10 @@ cython_debug/
 yolov8n.pt
 
 *.mp4
+
+trained_model/
+WIDER_train/
+datasets/
+.jpeg
+.jpg
+runs/
