@@ -9,7 +9,7 @@ on:
     #   - develop
     # Or leave it on every push to any branch:
     branches-ignore:
-      - ''   # empty string means “no ignores” → runs on all branches
+      - ' '   # empty string means “no ignores” → runs on all branches
 
 jobs:
   ruff-lint:
