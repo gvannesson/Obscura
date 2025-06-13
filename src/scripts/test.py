@@ -2,7 +2,7 @@ from ultralytics import YOLO
 import cv2
 
 # Load a pre-trained model (assumes this is already fine-tuned for faces;
-# if you’re still using the default COCO weights, “cls 0” = “person,” not necessarily just the face)hhyfydydhfydhfyhdfydhfdhfydhyfdhyfhdyfhdhfydhfyhyfdhy
+# if you’re still using the default COCO weights, “cls 0” = “person,” not necessarily just the face)
 
 # load model
 model = YOLO("../models/model.pt")
