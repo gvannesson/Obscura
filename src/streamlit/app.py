@@ -11,6 +11,8 @@ from utils import model_selection
 # # ── Load YOLO model once ─────────────────────────────────────────────────────
 # model = YOLO("../models/model.pt")  # adjust path as needed
 
+st.image("../img/logo.png", width=250)
+
 # ── Streamlit UI ────────────────────────────────────────────────────────────
 st.title("🛡 Obscura - Anonymization")
 
