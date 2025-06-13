@@ -6,6 +6,7 @@ from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, RTCConfigurati
 
 # Charge ton modèle YOLO (modifie le chemin)
 model = YOLO("../scripts/model.pt")
+# model = YOLO("../runs/detect/train23/weights/best.pt")
 
 st.title("🛡 Obscura - Anonymization")
 
