@@ -2,7 +2,6 @@ from ultralytics import YOLO
 import cv2
 
 # 1. Load your face‐detection model (if you have a face‐specific weight, use that)
-model = YOLO('model.pt')  # or 'yolov8n.pt' if you only have COCO (will detect full person)
 model = YOLO('../models/model.pt') # or 'yolov8n.pt' if you only have COCO (will detect full person)
 
 # 2. Open your default webcam (device 0)

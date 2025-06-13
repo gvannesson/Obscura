@@ -200,7 +200,10 @@ yolov8n.pt
 
 trained_model/
 WIDER_train/
-datasets/
+images/
+labels/
+widerface_split/
+
 .jpeg
 .jpg
 runs/
