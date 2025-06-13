@@ -4,3 +4,4 @@ torchaudio
 ultralytics
 streamlit
 streamlit-webrtc
+ruff

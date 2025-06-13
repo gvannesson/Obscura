@@ -17,7 +17,7 @@ for box in res.boxes:
     cls_id = int(box.cls[0])        # class index (e.g. 0 for “person”)
     # If you only want to blur faces (and your weights are truly a face model),
     # you can skip this check. If using COCO, you might want to do:
-    # if cls_id != 0: 
+    # if cls_id != 0:
     #     continue
 
     # Get the absolute pixel coordinates of the bounding box
