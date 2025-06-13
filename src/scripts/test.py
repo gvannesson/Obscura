@@ -43,7 +43,6 @@ cv2.imshow('Blurred Faces', img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
-pass
 
 #This is for testing the workflow
 
