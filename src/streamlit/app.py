@@ -1,13 +1,17 @@
 import cv2
 import numpy as np
-from ultralytics import YOLO
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, RTCConfiguration
+import os
+from utils import model_selection
 
-# Charge ton modèle YOLO (modifie le chemin)
-model = YOLO("../scripts/model.pt")
-# model = YOLO("../runs/detect/train23/weights/best.pt")
 
+# # ── Load YOLO model once ─────────────────────────────────────────────────────
+# model = YOLO("../models/model.pt")  # adjust path as needed
+
+st.image("../img/logo.png", width=250)
+
+# ── Streamlit UI ────────────────────────────────────────────────────────────
 st.title("🛡 Obscura - Anonymization")
 
 # Slider en sidebar pour régler le flou (sera accessible en live)

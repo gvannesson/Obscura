@@ -1,0 +1,21 @@
+# ruff.toml – no [tool.ruff] header in a standalone file
+
+line-length = 100
+
+lint.select = [
+   "E",    # pycodestyle errors
+  "F",    # pyflakes
+  "W",    # pycodestyle warnings
+  "C90",  # complexity (McCabe)
+]
+
+lint.ignore = [
+  "E203",  # whitespace before ':'
+]
+
+exclude = [
+  ".git",
+  "__pycache__",
+  "build",
+  "dist",
+]

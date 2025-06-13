@@ -3,6 +3,7 @@ import cv2
 
 # 1. Load your face‐detection model (if you have a face‐specific weight, use that)
 model = YOLO('model.pt')  # or 'yolov8n.pt' if you only have COCO (will detect full person)
+model = YOLO('../models/model.pt') # or 'yolov8n.pt' if you only have COCO (will detect full person)
 
 # 2. Open your default webcam (device 0)
 cap = cv2.VideoCapture(0)
@@ -27,7 +28,7 @@ while True:
     for box in res.boxes:
         cls_id = int(box.cls[0])
         # If using COCO weights and you only want to blur people:
-        # if cls_id != 0:  
+        # if cls_id != 0:
         #     continue
 
         x1, y1, x2, y2 = box.xyxy[0].tolist()
