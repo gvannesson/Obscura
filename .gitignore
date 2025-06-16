@@ -192,3 +192,18 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+*.pt
+yolov8n.pt
+
+*.mp4
+
+trained_model/
+WIDER_train/
+images/
+labels/
+widerface_split/
+
+*.jpeg
+*.jpg
+runs/

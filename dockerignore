@@ -1,0 +1,29 @@
+# Empêche de copier les dossiers de vidéos
+video/inputs/
+video/outputs/
+
+# Ignore tous les fichiers d'image partout
+*.png
+*.jpg
+*.jpeg
+*.bmp
+*.tiff
+*.gif
+
+# Ignore aussi les fichiers vidéos
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# Empêche d'embarquer les caches Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Eventuels fichiers de config locaux
+.env
+
+# Ignore les checkpoints YOLO téléchargés automatiquement (si applicable)
+runs/
