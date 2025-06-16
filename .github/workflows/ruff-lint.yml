@@ -1,0 +1,35 @@
+# .github/workflows/ruff-lint.yml
+name: Lint with Ruff
+
+on:
+  push:
+    # You can scope this to particular branches if you like:
+    # branches:
+    #   - main
+    #   - develop
+    # Or leave it on every push to any branch:
+    branches-ignore:
+      - ' '   # empty string means “no ignores” → runs on all branches
+
+jobs:
+  ruff-lint:
+    name: Run Ruff
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: 📦 Install Ruff
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+
+      - name: 🔍 Lint with Ruff
+        run: |
+          ruff check src/
